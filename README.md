@@ -15,10 +15,10 @@ make
 環境変数を設定してください．
 ```
 export LB_SERIAL_DEVICE_DIR=
-export LB_SOCAT_DIR
-export LB_AYAME_SIGNALING
-export LB_AYAME_ROOM_ID
-export LB_MOMO_DIR
+export LB_SOCAT_DIR=
+export LB_AYAME_SIGNALINGKEY=
+export LB_AYAME_ROOM_ID=
+export LB_MOMO_DIR=
 ```
 実行
 ```

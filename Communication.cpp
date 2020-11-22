@@ -1,7 +1,7 @@
 #include "Communication.h"
 // LB_SERIAL_DEVICE_DIR : socatでデバイスが作られるディレクトリ
 // LB_SOCAT_DIR
-// LB_AYAME_SIGNALING
+// LB_AYAME_SIGNALINGKEY
 // LB_AYAME_ROOM_ID
 // LB_MOMO_DIR 
 // 環境変数として以上を設定する
