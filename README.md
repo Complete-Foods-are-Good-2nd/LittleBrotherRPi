@@ -4,6 +4,7 @@ LIttle BrotherのRaspberry Pi用ソフトウェアです．
 以下をインストールしておいてください．
 - socat
 - [WebRTC Native Client Momo](https://github.com/shiguredo/momo)
+- Boost C++ Libraries
 
 ## ビルド
 以下で実行ファイルmainがビルドされます．

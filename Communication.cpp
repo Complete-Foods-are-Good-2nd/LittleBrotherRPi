@@ -22,7 +22,6 @@ std::pair<std::string, std::string> Communication::generate_loopback_serial_devi
     std::set<std::string> before_serial_device_names;
     std::set<std::string> after_serial_device_names;
     std::pair<std::string, std::string> loopback_serial_device_names;
-    const std::string SOCAT_OPTION = "-d -d pty,raw,echo=0 pty,raw,echo=0";
     std::string socat_dir;
     if(char* temp = getenv("LB_SOCAT_DIR")){
         socat_dir = std::string(temp);
@@ -30,14 +29,11 @@ std::pair<std::string, std::string> Communication::generate_loopback_serial_devi
         std::cout<<"Set environment variable: LB_SOCAT_DIR"<<std::endl;
         exit(1);
     }
-    std::string socat_cmd;
-    socat_cmd += socat_dir + "socat ";
-    socat_cmd += SOCAT_OPTION;
-    socat_cmd = "sh -c '" + socat_cmd + "' &";
-    std::cout<<socat_cmd<<std::endl;
+    const std::string SOCAT_CMD = (boost::format("sh -c '%ssocat -d -d pty,raw,echo=0 pty,raw,echo=0' &") % socat_dir).str();
+    std::cout<<SOCAT_CMD<<std::endl;
 
     before_serial_device_names = get_serial_device_names();
-    system(socat_cmd.c_str());
+    system(SOCAT_CMD.c_str());
     sleep(1);
     after_serial_device_names = get_serial_device_names();
 
@@ -106,15 +102,14 @@ void Communication::start_stream(){
         exit(1);
     }
 
-    std::string momo_cmd = momo_dir + "momo";
-    momo_cmd += " --serial ";
-    momo_cmd += this->serial_device_dir;
-    momo_cmd += this->momo_serial_device_name; 
-    momo_cmd += ",9600 ";
-    momo_cmd += MOMO_CMD_OPTION_DEV + " ";
-    momo_cmd += ayame_room_id + " ";
-    momo_cmd += "--signaling-key " + ayame_signalingkey;
-    momo_cmd = "sh -c '" + momo_cmd + "' &";
-    std::cout<<momo_cmd<<std::endl;
-    system(momo_cmd.c_str());
+    const std::string MOMO_CMD = (boost::format("sh -c '%smomo --serial %s%s,9600 %s %s --signaling-key %s' &") \
+    % momo_dir \
+    % this->serial_device_dir \
+    % this->momo_serial_device_name \
+    % MOMO_CMD_OPTION_DEV \
+    % ayame_room_id \
+    % ayame_signalingkey \
+    ).str();
+    std::cout<<MOMO_CMD<<std::endl;
+    system(MOMO_CMD.c_str());
 }

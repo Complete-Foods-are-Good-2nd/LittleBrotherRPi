@@ -7,6 +7,7 @@
 #include <iostream>
 #include <set>
 #include <unistd.h>
+#include <boost/format.hpp>
 
 class Communication
 {
