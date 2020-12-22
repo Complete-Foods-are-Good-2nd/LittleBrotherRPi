@@ -8,8 +8,6 @@
 #include <termios.h>
 #include <unistd.h>
 #include "Communication.h"
-// シリアル通信部は以下の記事を参考にさせていただきました．
-// https://mcommit.hatenadiary.com/entry/2017/07/09/210840
 
 int main(){
     Communication communication;
@@ -19,33 +17,40 @@ int main(){
     communication.start_stream();
 
     unsigned char buf[255];
-    int fd;                             // ファイルディスクリプタ
-    struct termios tio;                 // シリアル通信設定
+    int serial_port;                             // ファイルディスクリプタ
+    struct termios pts;                 // シリアル通信設定
     int baudRate = B9600;
     int len;
-    std::string serial_port = communication.serial_device_dir + communication.my_serial_device_name;
+    std::string serial_port_path = communication.serial_device_dir + communication.my_serial_device_name;
 
-    fd = open(serial_port.c_str(), O_RDWR);
-    if (fd < 0) {
+    serial_port = open(serial_port_path.c_str(), O_RDWR);
+    if (serial_port < 0) {
         printf("open error\n");
-        return -1;
+        exit(1);
     }
 
-    tio.c_cflag += CREAD;               // 受信有効
-    tio.c_cflag += CLOCAL;              // ローカルライン（モデム制御なし）
-    tio.c_cflag += CS8;                 // データビット:8bit
-    tio.c_cflag += 0;                   // ストップビット:1bit
-    tio.c_cflag += 0;                   // パリティ:None
+    pts.c_cflag &= ~PARENB;
+    pts.c_cflag &= ~CSTOPB;
+    pts.c_cflag &= ~CSIZE;
+    pts.c_cflag |= CS8;
+    pts.c_cflag &= ~CRTSCTS;
+    pts.c_cflag |= CREAD | CLOCAL;
 
-    cfsetispeed( &tio, baudRate );
-    cfsetospeed( &tio, baudRate );
 
-    cfmakeraw(&tio);                    // RAWモード
-    tcsetattr( fd, TCSANOW, &tio );     // デバイスに設定を行う
-    ioctl(fd, TCSETS, &tio);            // ポートの設定を有効にする
+    pts.c_cflag += CLOCAL;              // ローカルライン（モデム制御なし）
+    pts.c_cflag += CS8;                 // データビット:8bit
+    pts.c_cflag += 0;                   // ストップビット:1bit
+    pts.c_cflag += 0;                   // パリティ:None
+
+    cfsetispeed( &pts, baudRate );
+    cfsetospeed( &pts, baudRate );
+
+    cfmakeraw(&pts);                    // RAWモード
+    tcsetattr( serial_port, TCSANOW, &pts );     // デバイスに設定を行う
+    ioctl(serial_port, TCSETS, &pts);            // ポートの設定を有効にする
 
     while(1) {
-        len = read(fd, buf, sizeof(buf));
+        len = read(serial_port, buf, sizeof(buf));
         if (0 < len) {
             for(int i = 0; i < len; i++) {
                 printf("%c", buf[i]);
@@ -54,7 +59,7 @@ int main(){
         }
     }
 
-    close(fd);
+    close(serial_port);
 
     return 0;
 }
