@@ -25,3 +25,8 @@ export LB_MOMO_DIR=
 ```
 ./main
 ```
+
+## オプション
+Usage: [-p serial-port] [-h]  
+[-p serial-port] momoを起動せず，serial-portからコマンドを受け取ります．  
+[-h] 現在のhelpを表示します．

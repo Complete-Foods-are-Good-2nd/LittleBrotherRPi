@@ -9,23 +9,52 @@
 #include <unistd.h>
 #include "Communication.h"
 
-int main(){
-    Communication communication;
-    std::cout<<"momo'seria-device-name: "<<communication.momo_serial_device_name<<std::endl;
-    std::cout<<"my seria-device-name: "<<communication.my_serial_device_name<<std::endl;
-
-    communication.start_stream();
-
+int main(int argc, char* argv[]){
     unsigned char buf[255];
     int serial_port;                             // ファイルディスクリプタ
     struct termios pts;                 // シリアル通信設定
     int baudRate = B9600;
     int len;
-    std::string serial_port_path = communication.serial_device_dir + communication.my_serial_device_name;
+    int i, opt;
+    opterr = 0; //getopt()のエラーメッセージを無効にする
+    bool isMomoLaunch = true;
+    std::string serial_port_path;
+
+    while((opt = getopt(argc, argv, "hp:")) != -1){
+        switch (opt)
+        {
+        case 'p':
+            printf("-pが渡されました．momoを起動せず，シリアルポート:%s からコマンドを受け取ります．\n", optarg);
+            isMomoLaunch = false;
+            serial_port_path = std::string(optarg);
+            break;
+
+        case 'h':
+            std::cout<<"Usage: [-p serial-port] [-h]"<<std::endl;
+            std::cout<<"[-p serial-port] momoを起動せず，serial-portからコマンドを受け取ります．"<<std::endl;
+            std::cout<<"[-h] 現在のhelpを表示します．"<<std::endl;
+            return 0;
+
+            break;
+        
+        default:
+            break;
+        }
+    }
+    
+    if(isMomoLaunch){
+        Communication communication;
+        std::cout<<"momo'seria-device-name: "<<communication.momo_serial_device_name<<std::endl;
+        std::cout<<"my seria-device-name: "<<communication.my_serial_device_name<<std::endl;
+
+        communication.start_stream();
+
+        serial_port_path = communication.serial_device_dir + communication.my_serial_device_name;
+    }
 
     serial_port = open(serial_port_path.c_str(), O_RDWR);
     if (serial_port < 0) {
-        printf("open error\n");
+        printf("can not open file\n");
         exit(1);
     }
 
