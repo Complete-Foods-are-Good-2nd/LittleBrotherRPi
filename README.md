@@ -30,3 +30,6 @@ export LB_MOMO_DIR=
 Usage: [-p serial-port] [-h]  
 [-p serial-port] momoを起動せず，serial-portからコマンドを受け取ります．  
 [-h] 現在のhelpを表示します．
+
+## コマンド対応表
+https://gist.github.com/nPeeech/5d9be64e710d96d02621656b444bbe93

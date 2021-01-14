@@ -9,10 +9,11 @@
 #include <unistd.h>
 #include "Communication.h"
 
-int main(int argc, char* argv[]){
-    unsigned char buf[255];
-    int serial_port;                             // ファイルディスクリプタ
-    struct termios pts;                 // シリアル通信設定
+int main(int argc, char *argv[])
+{
+    char buf[255];
+    int serial_port;    // ファイルディスクリプタ
+    struct termios pts; // シリアル通信設定
     int baudRate = B9600;
     int len;
     int i, opt;
@@ -20,7 +21,8 @@ int main(int argc, char* argv[]){
     bool isMomoLaunch = true;
     std::string serial_port_path;
 
-    while((opt = getopt(argc, argv, "hp:")) != -1){
+    while ((opt = getopt(argc, argv, "hp:")) != -1)
+    {
         switch (opt)
         {
         case 'p':
@@ -30,22 +32,23 @@ int main(int argc, char* argv[]){
             break;
 
         case 'h':
-            std::cout<<"Usage: [-p serial-port] [-h]"<<std::endl;
-            std::cout<<"[-p serial-port] momoを起動せず，serial-portからコマンドを受け取ります．"<<std::endl;
-            std::cout<<"[-h] 現在のhelpを表示します．"<<std::endl;
+            std::cout << "Usage: [-p serial-port] [-h]" << std::endl;
+            std::cout << "[-p serial-port] momoを起動せず，serial-portからコマンドを受け取ります．" << std::endl;
+            std::cout << "[-h] 現在のhelpを表示します．" << std::endl;
             return 0;
 
             break;
-        
+
         default:
             break;
         }
     }
-    
-    if(isMomoLaunch){
+
+    if (isMomoLaunch)
+    {
         Communication communication;
-        std::cout<<"momo'seria-device-name: "<<communication.momo_serial_device_name<<std::endl;
-        std::cout<<"my seria-device-name: "<<communication.my_serial_device_name<<std::endl;
+        std::cout << "momo'seria-device-name: " << communication.momo_serial_device_name << std::endl;
+        std::cout << "my seria-device-name: " << communication.my_serial_device_name << std::endl;
 
         communication.start_stream();
 
@@ -53,7 +56,8 @@ int main(int argc, char* argv[]){
     }
 
     serial_port = open(serial_port_path.c_str(), O_RDWR);
-    if (serial_port < 0) {
+    if (serial_port < 0)
+    {
         printf("can not open file\n");
         exit(1);
     }
@@ -65,26 +69,110 @@ int main(int argc, char* argv[]){
     pts.c_cflag &= ~CRTSCTS;
     pts.c_cflag |= CREAD | CLOCAL;
 
+    pts.c_lflag &= ~ICANON;
+    pts.c_lflag &= ~ECHO;
+    pts.c_lflag &= ~ECHOE;
+    pts.c_lflag &= ~ECHONL;
+    pts.c_lflag &= ~ISIG;
+    pts.c_iflag &= ~(IXON | IXOFF | IXANY);
+    pts.c_iflag &= ~(IGNBRK | BRKINT | PARMRK | ISTRIP | INLCR | IGNCR | ICRNL);
 
-    pts.c_cflag += CLOCAL;              // ローカルライン（モデム制御なし）
-    pts.c_cflag += CS8;                 // データビット:8bit
-    pts.c_cflag += 0;                   // ストップビット:1bit
-    pts.c_cflag += 0;                   // パリティ:None
+    pts.c_oflag &= ~OPOST;
+    pts.c_oflag &= ~ONLCR;
 
-    cfsetispeed( &pts, baudRate );
-    cfsetospeed( &pts, baudRate );
+    pts.c_cc[VTIME] = 10;
+    pts.c_cc[VMIN] = 0;
 
-    cfmakeraw(&pts);                    // RAWモード
-    tcsetattr( serial_port, TCSANOW, &pts );     // デバイスに設定を行う
-    ioctl(serial_port, TCSETS, &pts);            // ポートの設定を有効にする
+    cfsetispeed(&pts, baudRate);
+    cfsetospeed(&pts, baudRate);
 
-    while(1) {
+    tcsetattr(serial_port, TCSANOW, &pts);
+
+    while (1)
+    {
+        memset(&buf, '\0', sizeof(buf)); //配列を\0で埋めて初期化
         len = read(serial_port, buf, sizeof(buf));
-        if (0 < len) {
-            for(int i = 0; i < len; i++) {
-                printf("%c", buf[i]);
+        if (0 < len)
+        {
+            if (strcmp(buf, "GLF") == 0) // 移動
+            {
+                // 左前方向に進む
+                puts("左前方向に進む");
             }
-            printf("\n");
+            else if (strcmp(buf, "GFF") == 0)
+            {
+                // 前方向に進む
+                puts("前方向に進む");
+            }
+            else if (strcmp(buf, "GRF") == 0)
+            {
+                // 右前方向に進む
+                puts("右前方向に進む");
+            }
+            else if (strcmp(buf, "GRR") == 0)
+            {
+                // 右方向に進む
+                puts("右方向に進む");
+            }
+            else if (strcmp(buf, "GRB") == 0)
+            {
+                // 右後方向に進む
+                puts("右後方向に進む");
+            }
+            else if (strcmp(buf, "GBB") == 0)
+            {
+                // 後方向に進む
+                puts("後方向に進む");
+            }
+            else if (strcmp(buf, "GLB") == 0)
+            {
+                // 左後方向に進む
+                puts("左後方向に進む");
+            }
+            else if (strcmp(buf, "GLL") == 0)
+            {
+                // 左方向に進む
+                puts("左方向に進む");
+            }
+            else if (strcmp(buf, "GSP") == 0)
+            {
+                // どの方向であろうと移動を止める
+                puts("移動を停止する");
+            }
+            else if (strcmp(buf, "CUP") == 0) // カメラの上下
+            {
+                // カメラを上に動かす
+                puts("カメラを上に向ける");
+            }
+            else if (strcmp(buf, "CDN") == 0)
+            {
+                // カメラを下に動かす
+                puts("カメラを下に動かす");
+            }
+            else if (strcmp(buf, "CSP") == 0)
+            {
+                // カメラの上下を停止する
+                puts("カメラの上下を停止する");
+            }
+            else if (strcmp(buf, "TRT") == 0) // 旋回
+            {
+                // 右に旋回する
+                puts("右に旋回する");
+            }
+            else if (strcmp(buf, "TLF") == 0)
+            {
+                // 左に旋回する
+                puts("左に旋回する");
+            }
+            else if (strcmp(buf, "TSP") == 0)
+            {
+                // 旋回を停止する
+                puts("旋回を停止する");
+            }
+            else
+            {
+                printf("%s: command not found\n", buf);
+            }
         }
     }
 
