@@ -3,8 +3,14 @@ LIttle BrotherのRaspberry Pi用ソフトウェアです．
 ## 環境構築
 以下をインストールしておいてください．
 - socat
+    ```
+    sudo apt install socat
+    ```
 - [WebRTC Native Client Momo](https://github.com/shiguredo/momo)
 - Boost C++ Libraries
+    ```
+    sudo apt install libboost-dev
+    ```
 
 ## ビルド
 以下で実行ファイルmainがビルドされます．
@@ -26,10 +32,12 @@ export LB_MOMO_DIR=
 ./main
 ```
 
-## オプション
+オプション
+```
 Usage: [-p serial-port] [-h]  
 [-p serial-port] momoを起動せず，serial-portからコマンドを受け取ります．  
 [-h] 現在のhelpを表示します．
+```
 
 ## コマンド対応表
 https://gist.github.com/nPeeech/5d9be64e710d96d02621656b444bbe93
