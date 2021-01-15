@@ -1,11 +1,12 @@
 #include <pigpiod_if2.h>
 #include <thread>
+#include <mutex>
 
 class Pigpio
 {
 private:
-    /* data */
+    int pi;
 public:
-    Pigpio(/* args */);
-    ~Pigpio();
+    Pigpio();
+    ~Pigpio();    
 };
