@@ -8,6 +8,7 @@
 #include <termios.h>
 #include <unistd.h>
 #include "Communication.h"
+#include "Pigpio.h"
 
 int main(int argc, char *argv[])
 {

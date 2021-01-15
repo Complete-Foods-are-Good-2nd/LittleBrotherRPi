@@ -32,3 +32,5 @@
 *.app
 webrtc_logs_0
 main
+
+.vscode/
