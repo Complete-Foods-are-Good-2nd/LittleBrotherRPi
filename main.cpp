@@ -21,6 +21,9 @@ int main(int argc, char *argv[])
     opterr = 0; //getopt()のエラーメッセージを無効にする
     bool isMomoLaunch = true;
     std::string serial_port_path;
+    Pigpio pigpio;
+    std::thread servo_thread([&pigpio]{ pigpio.rotate_camera_servo(); });
+    servo_thread.detach();
 
     while ((opt = getopt(argc, argv, "hp:")) != -1)
     {
@@ -144,16 +147,19 @@ int main(int argc, char *argv[])
             {
                 // カメラを上に動かす
                 puts("カメラを上に向ける");
+                pigpio.camera_up();
             }
             else if (strcmp(buf, "CDN") == 0)
             {
                 // カメラを下に動かす
                 puts("カメラを下に動かす");
+                pigpio.camera_down();
             }
             else if (strcmp(buf, "CSP") == 0)
             {
                 // カメラの上下を停止する
                 puts("カメラの上下を停止する");
+                pigpio.camera_stop();
             }
             else if (strcmp(buf, "TRT") == 0) // 旋回
             {
