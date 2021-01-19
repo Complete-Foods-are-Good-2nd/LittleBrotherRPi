@@ -29,14 +29,8 @@ export LB_MOMO_DIR=
 ```
 実行
 ```
-./main
-```
-
-オプション
-```
-Usage: [-p serial-port] [-h]  
-[-p serial-port] momoを起動せず，serial-portからコマンドを受け取ります．  
-[-h] 現在のhelpを表示します．
+./main //Momoを自動で起動する
+./main <シリアルポート> //Momoを起動せず，指定されたシリアルポートからコマンドを受け取る
 ```
 
 ## コマンド対応表

@@ -17,35 +17,20 @@ int main(int argc, char *argv[])
     struct termios pts; // シリアル通信設定
     int baudRate = B9600;
     int len;
-    int i, opt;
-    opterr = 0; //getopt()のエラーメッセージを無効にする
     bool isMomoLaunch = true;
     std::string serial_port_path;
     Pigpio pigpio;
-    // std::thread servo_thread([&pigpio]{ pigpio.rotate_camera_servo(); });
-    // servo_thread.detach();
 
-    while ((opt = getopt(argc, argv, "hp:")) != -1)
+    if (argc == 2)
     {
-        switch (opt)
-        {
-        case 'p':
-            printf("-pが渡されました．momoを起動せず，シリアルポート:%s からコマンドを受け取ります．\n", optarg);
-            isMomoLaunch = false;
-            serial_port_path = std::string(optarg);
-            break;
-
-        case 'h':
-            std::cout << "Usage: [-p serial-port] [-h]" << std::endl;
-            std::cout << "[-p serial-port] momoを起動せず，serial-portからコマンドを受け取ります．" << std::endl;
-            std::cout << "[-h] 現在のhelpを表示します．" << std::endl;
-            return 0;
-
-            break;
-
-        default:
-            break;
-        }
+        serial_port_path = std::string(argv[1]);
+        std::cout << "Recevies commands from the serial-port: " << serial_port_path << std::endl;
+        isMomoLaunch = false;
+    }
+    else if (argc > 2)
+    {
+        std::cout << "Too many arguments, not two." << std::endl;
+        exit(1);
     }
 
     if (isMomoLaunch)
