@@ -22,8 +22,8 @@ int main(int argc, char *argv[])
     bool isMomoLaunch = true;
     std::string serial_port_path;
     Pigpio pigpio;
-    std::thread servo_thread([&pigpio]{ pigpio.rotate_camera_servo(); });
-    servo_thread.detach();
+    // std::thread servo_thread([&pigpio]{ pigpio.rotate_camera_servo(); });
+    // servo_thread.detach();
 
     while ((opt = getopt(argc, argv, "hp:")) != -1)
     {

@@ -4,6 +4,8 @@ Pigpio::Pigpio()
 {
     pi = pigpio_start(0, 0);
     set_mode(pi, SERVO_PIN, PI_OUTPUT);
+    std::thread servo_thread(&Pigpio::rotate_camera_servo, this);
+    servo_thread.detach();
 }
 
 Pigpio::~Pigpio()
@@ -24,22 +26,25 @@ void Pigpio::rotate_camera_servo()
         else if (pulse < MIN_SERVO_PULSE)
             pulse = MIN_SERVO_PULSE;
         set_servo_pulsewidth(pi, SERVO_PIN, pulse);
-        printf("パルス幅:%d\n", pulse);
+        // printf("パルス幅:%d\n", pulse);
         std::this_thread::sleep_for(std::chrono::milliseconds(200));
     }
 }
 
-void Pigpio::camera_up(){
+void Pigpio::camera_up()
+{
     std::lock_guard<std::mutex> lock(camera_rotate_speed_mtx);
     camera_rotate_speed = 1;
 }
 
-void Pigpio::camera_down(){
+void Pigpio::camera_down()
+{
     std::lock_guard<std::mutex> lock(camera_rotate_speed_mtx);
     camera_rotate_speed = -1;
 }
 
-void Pigpio::camera_stop(){
+void Pigpio::camera_stop()
+{
     std::lock_guard<std::mutex> lock(camera_rotate_speed_mtx);
     camera_rotate_speed = 0;
 }
