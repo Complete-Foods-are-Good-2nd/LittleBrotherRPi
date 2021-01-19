@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
     }
     else if (argc > 2)
     {
-        std::cout << "Too many arguments, not two." << std::endl;
+        std::cerr << "Error: Too many arguments, not 2." << std::endl;
         exit(1);
     }
 
@@ -47,7 +47,7 @@ int main(int argc, char *argv[])
     serial_port = open(serial_port_path.c_str(), O_RDWR);
     if (serial_port < 0)
     {
-        printf("can not open file\n");
+        std::cerr << "Error: Can not open serial-port: " << serial_port_path << std::endl;
         exit(1);
     }
 
