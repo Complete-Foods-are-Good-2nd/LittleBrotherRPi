@@ -4,7 +4,7 @@ Pigpio::Pigpio()
 {
     pi = pigpio_start(0, 0);
     set_mode(pi, SERVO_PIN, PI_OUTPUT);
-    std::thread servo_thread(&Pigpio::rotate_camera_servo, this);
+    std::thread servo_thread(&Pigpio::move_camera_by_polling, this);
     servo_thread.detach();
 }
 
@@ -13,7 +13,7 @@ Pigpio::~Pigpio()
     pigpio_stop(pi);
 }
 
-void Pigpio::rotate_camera_servo()
+void Pigpio::move_camera_by_polling()
 {
     int pulse = 1500;
     while (1)
