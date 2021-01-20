@@ -4,14 +4,21 @@ LIttle BrotherのRaspberry Pi用ソフトウェアです．
 以下をインストールしておいてください．
 - socat
     ```
-    sudo apt install socat
+    $ sudo apt install socat
     ```
 - [WebRTC Native Client Momo](https://github.com/shiguredo/momo)
 - Boost C++ Libraries
     ```
-    sudo apt install libboost-dev
+    $ sudo apt install libboost-dev
     ```
-
+- Pigpio
+    ```
+    $ sudo apt install pigpio
+    ```
+    Raspberry Piを起動するたびに以下で動かしておいてください
+    ```
+    $ sudo pigpiod
+    ```
 ## ビルド
 以下で実行ファイルmainがビルドされます．
 ```
@@ -19,7 +26,7 @@ make
 ```
 
 ## 動かす
-環境変数を設定してください．
+環境変数を設定する．
 ```
 export LB_SERIAL_DEVICE_DIR=
 export LB_SOCAT_DIR=
@@ -34,6 +41,7 @@ export LB_MOMO_DIR=
 ```
 
 ## Momoを起動せずに，コマンドのテストだけを目的に動かす
+環境変数を設定する必要はありません．  
 複数のコマンドが動き続けるので，ターミナルを複数用意するか，tmuxなどで分割してください．
 
 シリアル通信に使うためにpyserialを入れる  ．
