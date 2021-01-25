@@ -31,6 +31,11 @@ void Pigpio::move_camera_by_polling()
     }
 }
 
+void Pigpio::move_motor()
+{
+    
+}
+
 void Pigpio::camera_up()
 {
     std::lock_guard<std::mutex> lock(camera_rotate_speed_mtx);

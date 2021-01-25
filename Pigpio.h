@@ -1,19 +1,21 @@
 #include <pigpiod_if2.h>
 #include <thread>
 #include <mutex>
+#include <map>
 
 class Pigpio
 {
 private:
     int pi;
     int camera_rotate_speed = 0; // -1:下向き, 0:停止, 1:上向き
+    map<int,int> motor_states; // <ピン番号,出力>
     std::mutex camera_rotate_speed_mtx;
     static constexpr int MAX_SERVO_PULSE = 2100;
     static constexpr int MIN_SERVO_PULSE = 900;
     static constexpr int PULSE_INCREMENT = 60;
     //GPIO
     static constexpr int SERVO_PIN = 21; // テキトーにサーボモーター用のピンをGPIO21にしたので好きに変えてください
-    //モーターのピン名はMOTOR_[右前から反時計回りにA～D]_[モータードライバのピン1 or 2]
+    // モーターのピン名はMOTOR_[右前から反時計回りにA～D]_[モータードライバのピン1 or 2]
     static constexpr int MOTOR_A_1 = 14;
     static constexpr int MOTOR_A_2 = 15;
     static constexpr int MOTOR_B_1 = 23;
