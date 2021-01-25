@@ -13,6 +13,15 @@ private:
     static constexpr int PULSE_INCREMENT = 60;
     //GPIO
     static constexpr int SERVO_PIN = 21; // テキトーにサーボモーター用のピンをGPIO21にしたので好きに変えてください
+    //モーターのピン名はMOTOR_[右前から反時計回りにA～D]_[モータードライバのピン1 or 2]
+    static constexpr int MOTOR_A_1 = 14;
+    static constexpr int MOTOR_A_2 = 15;
+    static constexpr int MOTOR_B_1 = 23;
+    static constexpr int MOTOR_B_2 = 24;
+    static constexpr int MOTOR_C_1 = 17;
+    static constexpr int MOTOR_C_2 = 27;
+    static constexpr int MOTOR_D_1 = 10;
+    static constexpr int MOTOR_D_2 = 9;
 
     void move_camera_by_polling();
 
