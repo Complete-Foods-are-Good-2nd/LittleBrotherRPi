@@ -9,15 +9,6 @@ class Pigpio
 private:
     int pi;
     int camera_rotate_speed = 0; // -1:下向き, 0:停止, 1:上向き
-    map<string,int> motor_states; // <ピン番号,出力>
-    motor_states["A1"]=0;
-    motor_states["A2"]=0;
-    motor_states["B1"]=0;
-    motor_states["B2"]=0;
-    motor_states["C1"]=0;
-    motor_states["C2"]=0;
-    motor_states["D1"]=0;
-    motor_states["D2"]=0;
     std::mutex camera_rotate_speed_mtx;
     static constexpr int MAX_SERVO_PULSE = 2100;
     static constexpr int MIN_SERVO_PULSE = 900;
@@ -36,11 +27,34 @@ private:
 
     void move_camera_by_polling();
     void move_motor();
+    void motor_stop();
+    void motor_cw();
+    void motor_ccw();
 
 public:
     Pigpio();
     ~Pigpio();
+    map<string,int> motor_states; // <ピン番号,出力>
+    motor_states["A1"]=0;
+    motor_states["A2"]=0;
+    motor_states["B1"]=0;
+    motor_states["B2"]=0;
+    motor_states["C1"]=0;
+    motor_states["C2"]=0;
+    motor_states["D1"]=0;
+    motor_states["D2"]=0;
     void camera_up();
     void camera_down();
     void camera_stop();
+    void go_lf();
+    void go_ff();
+    void go_rf();
+    void go_rr();
+    void go_rb();
+    void go_bb();
+    void go_lb();
+    void go_ll();
+    void turn_rt();
+    void turn_lf();
+    void go_stop();
 };
