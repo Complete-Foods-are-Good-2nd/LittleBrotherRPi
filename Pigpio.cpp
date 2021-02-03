@@ -21,9 +21,7 @@ Pigpio::Pigpio()
     set_mode(pi, MOTOR_D_1, PI_OUTPUT);
     set_mode(pi, MOTOR_D_2, PI_OUTPUT);
     std::thread servo_thread(&Pigpio::move_camera_by_polling, this);
-    std::thread motor_thread(&Pigpio::move_motor, this);
     servo_thread.detach();
-    motor_thread.detach();
 }
 
 Pigpio::~Pigpio()
@@ -49,20 +47,16 @@ void Pigpio::move_camera_by_polling()
     }
 }
 
-void Pigpio::move_motor()
+void Pigpio::apply_move_motor()
 {
-    while (1)
-    {
-        gpio_write(pi, MOTOR_A_1, motor_states["A1"]);
-        gpio_write(pi, MOTOR_A_2, motor_states["A2"]);
-        gpio_write(pi, MOTOR_B_1, motor_states["B1"]);
-        gpio_write(pi, MOTOR_B_2, motor_states["B2"]);
-        gpio_write(pi, MOTOR_C_1, motor_states["C1"]);
-        gpio_write(pi, MOTOR_C_2, motor_states["C2"]);
-        gpio_write(pi, MOTOR_D_1, motor_states["D1"]);
-        gpio_write(pi, MOTOR_D_2, motor_states["D2"]);
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
-    }
+    gpio_write(pi, MOTOR_A_1, motor_states["A1"]);
+    gpio_write(pi, MOTOR_A_2, motor_states["A2"]);
+    gpio_write(pi, MOTOR_B_1, motor_states["B1"]);
+    gpio_write(pi, MOTOR_B_2, motor_states["B2"]);
+    gpio_write(pi, MOTOR_C_1, motor_states["C1"]);
+    gpio_write(pi, MOTOR_C_2, motor_states["C2"]);
+    gpio_write(pi, MOTOR_D_1, motor_states["D1"]);
+    gpio_write(pi, MOTOR_D_2, motor_states["D2"]);
 }
 
 void Pigpio::camera_up()
@@ -107,6 +101,7 @@ void Pigpio::go_lf()
     motor_stop("B");
     motor_cw("C");
     motor_stop("D");
+    apply_move_motor();
 }
 
 void Pigpio::go_ff()
@@ -115,6 +110,7 @@ void Pigpio::go_ff()
     motor_cw("B");
     motor_cw("C");
     motor_ccw("D");
+    apply_move_motor();
 }
 
 void Pigpio::go_rf()
@@ -123,6 +119,7 @@ void Pigpio::go_rf()
     motor_cw("B");
     motor_stop("C");
     motor_ccw("D");
+    apply_move_motor();
 }
 
 void Pigpio::go_rr()
@@ -131,6 +128,7 @@ void Pigpio::go_rr()
     motor_cw("B");
     motor_ccw("C");
     motor_ccw("D");
+    apply_move_motor();
 }
 
 void Pigpio::go_rb()
@@ -139,6 +137,7 @@ void Pigpio::go_rb()
     motor_stop("B");
     motor_ccw("C");
     motor_stop("D");
+    apply_move_motor();
 }
 
 void Pigpio::go_bb()
@@ -147,6 +146,7 @@ void Pigpio::go_bb()
     motor_ccw("B");
     motor_ccw("C");
     motor_cw("D");
+    apply_move_motor();
 }
 
 void Pigpio::go_lb()
@@ -155,6 +155,7 @@ void Pigpio::go_lb()
     motor_ccw("B");
     motor_stop("C");
     motor_cw("D");
+    apply_move_motor();
 }
 
 void Pigpio::go_ll()
@@ -163,6 +164,7 @@ void Pigpio::go_ll()
     motor_ccw("B");
     motor_cw("C");
     motor_cw("D");
+    apply_move_motor();
 }
 
 void Pigpio::turn_rt()
@@ -171,6 +173,7 @@ void Pigpio::turn_rt()
     motor_cw("B");
     motor_cw("C");
     motor_cw("D");
+    apply_move_motor();
 }
 
 void Pigpio::turn_lf()
@@ -179,6 +182,7 @@ void Pigpio::turn_lf()
     motor_ccw("B");
     motor_ccw("C");
     motor_ccw("D");
+    apply_move_motor();
 }
 
 void Pigpio::go_stop()
@@ -187,4 +191,5 @@ void Pigpio::go_stop()
     motor_stop("B");
     motor_stop("C");
     motor_stop("D");
+    apply_move_motor();
 }

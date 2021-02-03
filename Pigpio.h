@@ -26,7 +26,7 @@ private:
     static constexpr int MOTOR_D_2 = 9;
 
     void move_camera_by_polling();
-    void move_motor();
+    void apply_move_motor();
     void motor_stop(std::string s);
     void motor_cw(std::string s);
     void motor_ccw(std::string s);
