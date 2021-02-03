@@ -53,7 +53,7 @@ void Pigpio::move_motor()
 {
     while (1)
     {
-        gpio_write(pi, MOTOR_A_1, motor_states["A1"]);
+        gpio_write(pi, MOTOR_A_1, motor_states["A1"]);printf("A1=%d\n",motor_states["A1"]);
         gpio_write(pi, MOTOR_A_2, motor_states["A2"]);
         gpio_write(pi, MOTOR_B_1, motor_states["B1"]);
         gpio_write(pi, MOTOR_B_2, motor_states["B2"]);
