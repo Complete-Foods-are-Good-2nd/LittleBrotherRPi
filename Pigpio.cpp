@@ -83,19 +83,19 @@ void Pigpio::camera_stop()
     camera_rotate_speed = 0;
 }
 
-void Pigpio::motor_stop(string s)
+void Pigpio::motor_stop(std::string s)
 {
     motor_states[s + "1"] = 1;
     motor_states[s + "2"] = 1;
 }
 
-void Pigpio::motor_cw(string s)
+void Pigpio::motor_cw(std::string s)
 {
     motor_states[s + "1"] = 1;
     motor_states[s + "2"] = 0;
 }
 
-void Pigpio::motor_ccw(string s)
+void Pigpio::motor_ccw(std::string s)
 {
     motor_states[s + "1"] = 0;
     motor_states[s + "2"] = 1;
