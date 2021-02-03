@@ -45,7 +45,7 @@ void Pigpio::move_camera_by_polling()
             pulse = MIN_SERVO_PULSE;
         set_servo_pulsewidth(pi, SERVO_PIN, pulse);
         // printf("パルス幅:%d\n", pulse);
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));puts("hoge");
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
 }
 
@@ -53,7 +53,7 @@ void Pigpio::move_motor()
 {
     while (1)
     {
-        gpio_write(pi, MOTOR_A_1, motor_states["A1"]);printf("A1=%d\n",motor_states["A1"]);
+        gpio_write(pi, MOTOR_A_1, motor_states["A1"]);
         gpio_write(pi, MOTOR_A_2, motor_states["A2"]);
         gpio_write(pi, MOTOR_B_1, motor_states["B1"]);
         gpio_write(pi, MOTOR_B_2, motor_states["B2"]);
