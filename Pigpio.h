@@ -27,9 +27,9 @@ private:
 
     void move_camera_by_polling();
     void move_motor();
-    void motor_stop();
-    void motor_cw();
-    void motor_ccw();
+    void motor_stop(string s);
+    void motor_cw(string s);
+    void motor_ccw(string s);
 
 public:
     Pigpio();
