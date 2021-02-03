@@ -35,14 +35,6 @@ public:
     Pigpio();
     ~Pigpio();
     std::map<std::string,int> motor_states; // <ピン番号,出力>
-    motor_states["A1"]=0;
-    motor_states["A2"]=0;
-    motor_states["B1"]=0;
-    motor_states["B2"]=0;
-    motor_states["C1"]=0;
-    motor_states["C2"]=0;
-    motor_states["D1"]=0;
-    motor_states["D2"]=0;
     void camera_up();
     void camera_down();
     void camera_stop();

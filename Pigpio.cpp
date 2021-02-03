@@ -3,6 +3,14 @@
 Pigpio::Pigpio()
 {
     pi = pigpio_start(0, 0);
+    motor_states["A1"]=0;
+    motor_states["A2"]=0;
+    motor_states["B1"]=0;
+    motor_states["B2"]=0;
+    motor_states["C1"]=0;
+    motor_states["C2"]=0;
+    motor_states["D1"]=0;
+    motor_states["D2"]=0;
     set_mode(pi, SERVO_PIN, PI_OUTPUT);
     set_mode(pi, MOTOR_A_1, PI_OUTPUT);
     set_mode(pi, MOTOR_A_2, PI_OUTPUT);
