@@ -34,7 +34,7 @@ private:
 public:
     Pigpio();
     ~Pigpio();
-    map<string,int> motor_states; // <ピン番号,出力>
+    std::map<std::string,int> motor_states; // <ピン番号,出力>
     motor_states["A1"]=0;
     motor_states["A2"]=0;
     motor_states["B1"]=0;
