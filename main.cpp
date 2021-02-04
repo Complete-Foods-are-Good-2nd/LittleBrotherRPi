@@ -86,46 +86,55 @@ int main(int argc, char *argv[])
             if (strcmp(buf, "GLF") == 0) // 移動
             {
                 // 左前方向に進む
+                pigpio.go_lf();
                 puts("左前方向に進む");
             }
             else if (strcmp(buf, "GFF") == 0)
             {
                 // 前方向に進む
+                pigpio.go_ff();
                 puts("前方向に進む");
             }
             else if (strcmp(buf, "GRF") == 0)
             {
                 // 右前方向に進む
+                pigpio.go_rf();
                 puts("右前方向に進む");
             }
             else if (strcmp(buf, "GRR") == 0)
             {
                 // 右方向に進む
+                pigpio.go_rr();
                 puts("右方向に進む");
             }
             else if (strcmp(buf, "GRB") == 0)
             {
                 // 右後方向に進む
+                pigpio.go_rb();
                 puts("右後方向に進む");
             }
             else if (strcmp(buf, "GBB") == 0)
             {
                 // 後方向に進む
+                pigpio.go_bb();
                 puts("後方向に進む");
             }
             else if (strcmp(buf, "GLB") == 0)
             {
                 // 左後方向に進む
+                pigpio.go_lb();
                 puts("左後方向に進む");
             }
             else if (strcmp(buf, "GLL") == 0)
             {
                 // 左方向に進む
+                pigpio.go_ll();
                 puts("左方向に進む");
             }
             else if (strcmp(buf, "GSP") == 0)
             {
                 // どの方向であろうと移動を止める
+                pigpio.go_stop();
                 puts("移動を停止する");
             }
             else if (strcmp(buf, "CUP") == 0) // カメラの上下
@@ -149,16 +158,19 @@ int main(int argc, char *argv[])
             else if (strcmp(buf, "TRT") == 0) // 旋回
             {
                 // 右に旋回する
+                pigpio.turn_rt();
                 puts("右に旋回する");
             }
             else if (strcmp(buf, "TLF") == 0)
             {
                 // 左に旋回する
+                pigpio.turn_lf();
                 puts("左に旋回する");
             }
             else if (strcmp(buf, "TSP") == 0)
             {
                 // 旋回を停止する
+                pigpio.go_stop();
                 puts("旋回を停止する");
             }
             else
