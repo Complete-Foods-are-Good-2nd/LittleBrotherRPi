@@ -37,7 +37,12 @@ std::pair<std::string, std::string> Communication::generate_loopback_serial_devi
         std::cerr << "Error: The environment variable: LB_SOCAT_DIR is not set." << std::endl;
         exit(1);
     }
-    const std::string SOCAT_CMD = (boost::format("sh -c '%ssocat -d -d pty,raw,echo=0 pty,raw,echo=0' &") % socat_dir).str();
+
+    // SOCAT_CMD = sh -c '{socat_dir}socat -d -d pty,raw,echo=0 pty,raw,echo=0' &
+    std::string SOCAT_CMD = "sh -c '";
+    SOCAT_CMD += socat_dir;
+    SOCAT_CMD += "socat -d -d pty,raw,echo=0 pty,raw,echo=0' &";
+    
     std::cout << SOCAT_CMD << std::endl;
 
     before_serial_device_names = get_serial_device_names();
@@ -98,7 +103,7 @@ std::set<std::string> Communication::get_serial_device_names()
 void Communication::start_stream()
 {
     const std::string MOMO_CMD_OPTION_DEV = "--no-audio-device --no-video-device ayame wss://ayame-labo.shiguredo.jp/signaling";
-    const std::string MOMO_CMD_OPTION_RPI = "";
+    const std::string MOMO_CMD_OPTION_RPI = "--no-audio-device --resolution=VGA --force-i420 --hw-mjpeg-decoder true  ayame wss://ayame-labo.shiguredo.jp/signaling";
     std::string ayame_signalingkey;
     std::string ayame_room_id;
     std::string momo_dir;
@@ -131,7 +136,23 @@ void Communication::start_stream()
         exit(1);
     }
 
-    const std::string MOMO_CMD = (boost::format("sh -c '%smomo --serial %s%s,9600 %s %s --signaling-key %s' &") % momo_dir % this->serial_device_dir % this->momo_serial_device_name % MOMO_CMD_OPTION_DEV % ayame_room_id % ayame_signalingkey).str();
+    //momo_cmd = sh -c '{momo_dir}momo --serial {this->serial_device_dir}{this->momo_serial_device_name},9600 {MOMO_CMD_OPTION_*} {ayame_room_id} --signaling-key {ayame_signalingkey}' &
+    std::string MOMO_CMD = "sh -c '";
+    MOMO_CMD += momo_dir;
+    MOMO_CMD += "momo --serial";
+    MOMO_CMD += " ";
+    MOMO_CMD += this->serial_device_dir;
+    MOMO_CMD += this->momo_serial_device_name;
+    MOMO_CMD += ",9600";
+    MOMO_CMD += " ";
+    MOMO_CMD += MOMO_CMD_OPTION_RPI;
+    MOMO_CMD += " ";
+    MOMO_CMD += ayame_room_id;
+    MOMO_CMD += " ";
+    MOMO_CMD += "--signaling-key ";
+    MOMO_CMD += " ";
+    MOMO_CMD += ayame_signalingkey;
+    MOMO_CMD += "' &";
     std::cout << MOMO_CMD << std::endl;
     system(MOMO_CMD.c_str());
 }

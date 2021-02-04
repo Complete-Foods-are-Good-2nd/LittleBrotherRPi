@@ -7,10 +7,6 @@ LIttle BrotherのRaspberry Pi用ソフトウェアです．
     $ sudo apt install socat
     ```
 - [WebRTC Native Client Momo](https://github.com/shiguredo/momo)
-- Boost C++ Libraries
-    ```
-    $ sudo apt install libboost-dev
-    ```
 - Pigpio
     ```
     $ sudo apt install pigpio
