@@ -82,69 +82,70 @@ int main(int argc, char *argv[]) {
         if (0 < len) {
             //なぜかputsじゃないと大文字が小文字になる
             //設定関係の変数が破壊されてる？
-            if (strcmp(buf, "GLF") == 0)  // 移動
+            //とりあえずコマンドをすべて小文字に変えることで対応した
+            if (strcmp(buf, "glf") == 0)  // 移動
             {
                 // 左前方向に進む
                 pigpio.go_lf();
-                puts("左前方向に進む");
-            } else if (strcmp(buf, "GFF") == 0) {
+                std::cout << "左前方向に進む" << std::endl;
+            } else if (strcmp(buf, "gff") == 0) {
                 // 前方向に進む
                 pigpio.go_ff();
-                puts("前方向に進む");
-            } else if (strcmp(buf, "GRF") == 0) {
+                std::cout << "前方向に進む" << std::endl;
+            } else if (strcmp(buf, "grf") == 0) {
                 // 右前方向に進む
                 pigpio.go_rf();
-                puts("右前方向に進む");
-            } else if (strcmp(buf, "GRR") == 0) {
+                std::cout << "右前方向に進む" << std::endl;
+            } else if (strcmp(buf, "grr") == 0) {
                 // 右方向に進む
                 pigpio.go_rr();
-                puts("右方向に進む");
-            } else if (strcmp(buf, "GRB") == 0) {
+                std::cout << "右方向に進む" << std::endl;
+            } else if (strcmp(buf, "grb") == 0) {
                 // 右後方向に進む
                 pigpio.go_rb();
-                puts("右後方向に進む");
-            } else if (strcmp(buf, "GBB") == 0) {
+                std::cout << "右後方向に進む" << std::endl;
+            } else if (strcmp(buf, "gbb") == 0) {
                 // 後方向に進む
                 pigpio.go_bb();
-                puts("後方向に進む");
-            } else if (strcmp(buf, "GLB") == 0) {
+                std::cout << "後方向に進む" << std::endl;
+            } else if (strcmp(buf, "glb") == 0) {
                 // 左後方向に進む
                 pigpio.go_lb();
-                puts("左後方向に進む");
-            } else if (strcmp(buf, "GLL") == 0) {
+                std::cout << "左後方向に進む" << std::endl;
+            } else if (strcmp(buf, "gll") == 0) {
                 // 左方向に進む
                 pigpio.go_ll();
-                puts("左方向に進む");
-            } else if (strcmp(buf, "GSP") == 0) {
+                std::cout << "左方向に進む" << std::endl;
+            } else if (strcmp(buf, "gsp") == 0) {
                 // どの方向であろうと移動を止める
                 pigpio.go_stop();
-                puts("移動を停止する");
-            } else if (strcmp(buf, "CUP") == 0)  // カメラの上下
+                std::cout << "移動を停止する" << std::endl;
+            } else if (strcmp(buf, "cup") == 0)  // カメラの上下
             {
                 // カメラを上に動かす
-                puts("カメラを上に向ける");
                 pigpio.camera_up();
-            } else if (strcmp(buf, "CDN") == 0) {
+                std::cout << "カメラを上に向ける" << std::endl;
+            } else if (strcmp(buf, "cdn") == 0) {
                 // カメラを下に動かす
-                puts("カメラを下に動かす");
                 pigpio.camera_down();
-            } else if (strcmp(buf, "CSP") == 0) {
+                std::cout << "カメラを下に動かす" << std::endl;
+            } else if (strcmp(buf, "csp") == 0) {
                 // カメラの上下を停止する
-                puts("カメラの上下を停止する");
                 pigpio.camera_stop();
-            } else if (strcmp(buf, "TRT") == 0)  // 旋回
+                std::cout << "カメラの上下を停止する" << std::endl;
+            } else if (strcmp(buf, "trt") == 0)  // 旋回
             {
                 // 右に旋回する
                 pigpio.turn_rt();
-                puts("右に旋回する");
-            } else if (strcmp(buf, "TLF") == 0) {
+                std::cout << "右に旋回する" << std::endl;
+            } else if (strcmp(buf, "tlf") == 0) {
                 // 左に旋回する
                 pigpio.turn_lf();
-                puts("左に旋回する");
-            } else if (strcmp(buf, "TSP") == 0) {
+                std::cout << "左に旋回する" << std::endl;
+            } else if (strcmp(buf, "tsp") == 0) {
                 // 旋回を停止する
                 pigpio.go_stop();
-                puts("旋回を停止する");
+                std::cout << "旋回を停止する" << std::endl;
             } else {
                 printf("%s: command not found\n", buf);
             }
