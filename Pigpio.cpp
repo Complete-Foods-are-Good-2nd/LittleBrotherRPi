@@ -182,17 +182,17 @@ void Pigpio::go_stop() {
     apply_move_motor();
 }
 
-void light_on() {
+void Pigpio::light_on() {
     light_a=1;
     light_b=1;
 }
 
-void light_off() {
+void Pigpio::light_off() {
     light_a=0;
     light_b=0;
 }
 
-void light_blink() {
+void Pigpio::light_blink() {
     light_a=1;
     light_b=0;
 }
