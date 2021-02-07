@@ -19,6 +19,7 @@ Pigpio::Pigpio() {
     set_mode(pi, MOTOR_C_2, PI_OUTPUT);
     set_mode(pi, MOTOR_D_1, PI_OUTPUT);
     set_mode(pi, MOTOR_D_2, PI_OUTPUT);
+    set_mode(pi, LIGHT_PIN, PI_OUTPUT);
     std::thread servo_thread(&Pigpio::move_camera_by_polling, this);
     std::thread light_thread(&Pigpio::set_light, this);
     servo_thread.detach();
@@ -46,9 +47,9 @@ void Pigpio::move_camera_by_polling() {
 void Pigpio::set_light() {
     int interval=100;
     while (1) {
-        gpio_write(pi, LIGHT_PIN, light_a);std::cout<<light_a<<std::endl;
+        gpio_write(pi, LIGHT_PIN, light_a);
         std::this_thread::sleep_for(std::chrono::milliseconds(interval));
-        gpio_write(pi, LIGHT_PIN, light_b);std::cout<<light_b<<std::endl;
+        gpio_write(pi, LIGHT_PIN, light_b);
         std::this_thread::sleep_for(std::chrono::milliseconds(interval));
     }
 }
