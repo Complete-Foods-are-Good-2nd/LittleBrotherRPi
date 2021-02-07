@@ -20,7 +20,9 @@ Pigpio::Pigpio() {
     set_mode(pi, MOTOR_D_1, PI_OUTPUT);
     set_mode(pi, MOTOR_D_2, PI_OUTPUT);
     std::thread servo_thread(&Pigpio::move_camera_by_polling, this);
+    std::thread light_thread(&Pigpio::set_light, this);
     servo_thread.detach();
+    light_thread.detach();
 }
 
 Pigpio::~Pigpio() { pigpio_stop(pi); }
@@ -38,6 +40,16 @@ void Pigpio::move_camera_by_polling() {
         set_servo_pulsewidth(pi, SERVO_PIN, pulse);
         // printf("パルス幅:%d\n", pulse);
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    }
+}
+
+void Pigpio::set_light() {
+    int interval=100;
+    while (1) {
+        gpio_write(pi, LIGHT_PIN, light_a);
+        std::this_thread::sleep_for(std::chrono::milliseconds(interval));
+        gpio_write(pi, LIGHT_PIN, light_b);
+        std::this_thread::sleep_for(std::chrono::milliseconds(interval));
     }
 }
 
@@ -168,4 +180,19 @@ void Pigpio::go_stop() {
     motor_stop("C");
     motor_stop("D");
     apply_move_motor();
+}
+
+void light_on() {
+    light_a=1;
+    light_b=1;
+}
+
+void light_off() {
+    light_a=0;
+    light_b=0;
+}
+
+void light_blink() {
+    light_a=1;
+    light_b=0;
 }

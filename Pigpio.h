@@ -25,17 +25,22 @@ class Pigpio {
     static constexpr int MOTOR_C_2 = 27;
     static constexpr int MOTOR_D_1 = 10;
     static constexpr int MOTOR_D_2 = 9;
+    // ライト
+    static constexpr int LIGHT_PIN = 16;
 
     void move_camera_by_polling();
     void apply_move_motor();
     void motor_stop(std::string s);
     void motor_cw(std::string s);
     void motor_ccw(std::string s);
+    void set_light();
 
    public:
     Pigpio();
     ~Pigpio();
     std::map<std::string, int> motor_states;  // <ピン番号,出力>
+    int light_a=0;
+    int light_b=0;
     void camera_up();
     void camera_down();
     void camera_stop();
@@ -50,4 +55,7 @@ class Pigpio {
     void turn_rt();
     void turn_lf();
     void go_stop();
+    void light_off();
+    void light_on();
+    void light_blink();
 };
