@@ -46,9 +46,9 @@ void Pigpio::move_camera_by_polling() {
 void Pigpio::set_light() {
     int interval=100;
     while (1) {
-        gpio_write(pi, LIGHT_PIN, light_a);
+        gpio_write(pi, LIGHT_PIN, light_a);std::cout<<light_a<<std::endl;
         std::this_thread::sleep_for(std::chrono::milliseconds(interval));
-        gpio_write(pi, LIGHT_PIN, light_b);
+        gpio_write(pi, LIGHT_PIN, light_b);std::cout<<light_b<<std::endl;
         std::this_thread::sleep_for(std::chrono::milliseconds(interval));
     }
 }
