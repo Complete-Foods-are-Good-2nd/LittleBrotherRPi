@@ -45,7 +45,7 @@ void Pigpio::move_camera_by_polling() {
 }
 
 void Pigpio::set_light() {
-    int interval=100;
+    int interval=50;
     while (1) {
         gpio_write(pi, LIGHT_PIN, light_a);
         std::this_thread::sleep_for(std::chrono::milliseconds(interval));
