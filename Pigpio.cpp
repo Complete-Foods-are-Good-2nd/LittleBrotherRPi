@@ -187,12 +187,12 @@ void Pigpio::light_on() {
     light_b=1;
 }
 
-void Pigpio::light_off() {
-    light_a=0;
+void Pigpio::light_blink() {
+    light_a=1;
     light_b=0;
 }
 
-void Pigpio::light_blink() {
-    light_a=1;
+void Pigpio::light_off() {
+    light_a=0;
     light_b=0;
 }

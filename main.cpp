@@ -147,14 +147,22 @@ int main(int argc, char *argv[]) {
                 pigpio.go_stop();
                 std::cout << "旋回を停止する" << std::endl;
             } else if (strcmp(buf, "swe") == 0) { // サウンド
+                // 爆発音を再生する
                 std::cout << "爆発音を再生する" << std::endl;
             } else if (strcmp(buf, "swa") == 0) {
+                // 警報音を再生する
                 std::cout << "警報音を再生する" << std::endl;
             } else if (strcmp(buf, "lon") == 0) { // ライト
+                // ライトを点灯する
+                pigpio.light_on();
                 std::cout << "ライトを点灯する" << std::endl;
-            } else if (strcmp(buf, "lst") == 0) {
+            } else if (strcmp(buf, "lbl") == 0) {
+                // ライトを点滅させる
+                pigpio.light_blink();
                 std::cout << "ライトを点滅させる" << std::endl;
             } else if (strcmp(buf, "lof") == 0) {
+                // ライトを消す
+                pigpio.light_off();
                 std::cout << "ライトを消す" << std::endl;
             } else{
                 printf("%s: command not found\n", buf);
