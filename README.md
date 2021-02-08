@@ -15,6 +15,10 @@ LIttle BrotherのRaspberry Pi用ソフトウェアです．
     ```
     $ sudo pigpiod
     ```
+- mpg321
+    ```
+    $ sudo apt-get install mpg321
+    ```
 ## ビルド
 以下で実行ファイルmainがビルドされます．
 ```

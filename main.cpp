@@ -20,6 +20,7 @@ int main(int argc, char *argv[]) {
     bool isMomoLaunch = true;
     std::string serial_port_path;
     Pigpio pigpio;
+    SoundSystem soundsystem;
 
     if (argc == 2) {
         serial_port_path = std::string(argv[1]);
@@ -149,9 +150,11 @@ int main(int argc, char *argv[]) {
                 std::cout << "旋回を停止する" << std::endl;
             } else if (strcmp(buf, "swe") == 0) { // サウンド
                 // 爆発音を再生する
+                soundsystem.play_music(soundsystem.filename_bomb);
                 std::cout << "爆発音を再生する" << std::endl;
             } else if (strcmp(buf, "swa") == 0) {
                 // 警報音を再生する
+                soundsystem.play_music(soundsystem.filename_alarm);
                 std::cout << "警報音を再生する" << std::endl;
             } else if (strcmp(buf, "lon") == 0) { // ライト
                 // ライトを点灯する

@@ -5,12 +5,8 @@
 #include <unistd.h>
 
 class SoundSystem {
-    private:
-     FILE *gp;
-     const std::string filename_bomb = "bomb1.mp3";
-     const std::string filename_alarm = "base-siren1.mp3";
-
     public:
-     void play_bomb();
-     void play_alarm();
+     const std::string filename_bomb = "sources/bomb1.mp3";
+     const std::string filename_alarm = "sources/base-siren1.mp3";
+     void play_music(std::string filename);
 };
