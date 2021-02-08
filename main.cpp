@@ -9,6 +9,7 @@
 #include <iostream>
 #include "Communication.h"
 #include "Pigpio.h"
+#include "SoundSystem.h"
 
 int main(int argc, char *argv[]) {
     char buf[255];
