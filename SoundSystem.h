@@ -13,4 +13,4 @@ class SoundSystem {
     public:
      void play_bomb();
      void play_alarm();
-}
+};
