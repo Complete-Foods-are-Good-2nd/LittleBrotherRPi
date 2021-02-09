@@ -12,6 +12,9 @@ class Pigpio {
     static constexpr int MAX_SERVO_PULSE = 2100;
     static constexpr int MIN_SERVO_PULSE = 900;
     static constexpr int PULSE_INCREMENT = 60;
+    int light_a=0;
+    int light_b=0;
+    std::mutex light_mtx;
     // GPIO
     static constexpr int SERVO_PIN =
         21;  // テキトーにサーボモーター用のピンをGPIO21にしたので好きに変えてください
@@ -25,12 +28,15 @@ class Pigpio {
     static constexpr int MOTOR_C_2 = 27;
     static constexpr int MOTOR_D_1 = 10;
     static constexpr int MOTOR_D_2 = 9;
+    // ライト
+    static constexpr int LIGHT_PIN = 16;
 
     void move_camera_by_polling();
     void apply_move_motor();
     void motor_stop(std::string s);
     void motor_cw(std::string s);
     void motor_ccw(std::string s);
+    void set_light();
 
    public:
     Pigpio();
@@ -50,4 +56,7 @@ class Pigpio {
     void turn_rt();
     void turn_lf();
     void go_stop();
+    void light_off();
+    void light_on();
+    void light_blink();
 };

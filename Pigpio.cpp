@@ -19,8 +19,11 @@ Pigpio::Pigpio() {
     set_mode(pi, MOTOR_C_2, PI_OUTPUT);
     set_mode(pi, MOTOR_D_1, PI_OUTPUT);
     set_mode(pi, MOTOR_D_2, PI_OUTPUT);
+    set_mode(pi, LIGHT_PIN, PI_OUTPUT);
     std::thread servo_thread(&Pigpio::move_camera_by_polling, this);
+    std::thread light_thread(&Pigpio::set_light, this);
     servo_thread.detach();
+    light_thread.detach();
 }
 
 Pigpio::~Pigpio() { pigpio_stop(pi); }
@@ -38,6 +41,20 @@ void Pigpio::move_camera_by_polling() {
         set_servo_pulsewidth(pi, SERVO_PIN, pulse);
         // printf("パルス幅:%d\n", pulse);
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    }
+}
+
+void Pigpio::set_light() {
+    int interval=50;
+    while (1) {
+        light_mtx.lock();
+        gpio_write(pi, LIGHT_PIN, light_a);
+        light_mtx.unlock();
+        std::this_thread::sleep_for(std::chrono::milliseconds(interval));
+        light_mtx.lock();
+        gpio_write(pi, LIGHT_PIN, light_b);
+        light_mtx.unlock();
+        std::this_thread::sleep_for(std::chrono::milliseconds(interval));
     }
 }
 
@@ -168,4 +185,22 @@ void Pigpio::go_stop() {
     motor_stop("C");
     motor_stop("D");
     apply_move_motor();
+}
+
+void Pigpio::light_on() {
+    std::lock_guard<std::mutex> lock(light_mtx);
+    light_a=1;
+    light_b=1;
+}
+
+void Pigpio::light_blink() {
+    std::lock_guard<std::mutex> lock(light_mtx);
+    light_a=1;
+    light_b=0;
+}
+
+void Pigpio::light_off() {
+    std::lock_guard<std::mutex> lock(light_mtx);
+    light_a=0;
+    light_b=0;
 }
