@@ -47,9 +47,13 @@ void Pigpio::move_camera_by_polling() {
 void Pigpio::set_light() {
     int interval=50;
     while (1) {
+        light_mtx.lock();
         gpio_write(pi, LIGHT_PIN, light_a);
+        light_mtx.unlock();
         std::this_thread::sleep_for(std::chrono::milliseconds(interval));
+        light_mtx.lock();
         gpio_write(pi, LIGHT_PIN, light_b);
+        light_mtx.unlock();
         std::this_thread::sleep_for(std::chrono::milliseconds(interval));
     }
 }
@@ -184,16 +188,19 @@ void Pigpio::go_stop() {
 }
 
 void Pigpio::light_on() {
+    std::lock_guard<std::mutex> lock(light_mtx);
     light_a=1;
     light_b=1;
 }
 
 void Pigpio::light_blink() {
+    std::lock_guard<std::mutex> lock(light_mtx);
     light_a=1;
     light_b=0;
 }
 
 void Pigpio::light_off() {
+    std::lock_guard<std::mutex> lock(light_mtx);
     light_a=0;
     light_b=0;
 }
