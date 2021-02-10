@@ -95,7 +95,7 @@ void Communication::start_stream() {
         "--no-audio-device --no-video-device ayame "
         "wss://ayame-labo.shiguredo.jp/signaling";
     const std::string MOMO_CMD_OPTION_RPI =
-        "--no-audio-device --resolution=VGA --force-i420 --hw-mjpeg-decoder "
+        "--no-audio-device --resolution=QVGA --force-i420 --hw-mjpeg-decoder "
         "true  ayame wss://ayame-labo.shiguredo.jp/signaling";
     std::string ayame_signalingkey;
     std::string ayame_room_id;
